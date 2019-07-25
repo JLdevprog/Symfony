@@ -66,16 +66,32 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
 * @Route("/advert")
 */
-class AdvertController
+class AdvertController extends Controller
 {
+  /**
+  * @Route("/view/{id}", name="oc_advert_view", requirements={"id" = "\d+"})
+  */
+  public function view($id, Request $request)
+  {
+    // On récupère notre paramètre tag
+    $tag = $request->query->get('tag');
+
+    return new Response(
+      "Affichage de l'annonce d'id : ".$id.", avec le tag : ".$tag
+    );
+  }
   /**
    * @Route("/add", name="oc_advert_add")
    */
@@ -83,7 +99,6 @@ class AdvertController
   {
     return new Response ("Add");
   }
-
   /**
    * @Route("/edit/{id}", name="oc_advert_edit", requirements={"id" = "\d+"})
    */
@@ -91,13 +106,42 @@ class AdvertController
   {
     return new Response ("Edit : ".$id);
   }
-
   /**
    * @Route("/delete/{id}", name="oc_advert_delete", requirements={"id" = "\d+"})
    */
   public function delete($id)
   {
     return new Response ("Delete : ".$id);
+  }
+  /**
+  * @Route("/viewError/{id}", name="oc_advert_view", requirements={"id" = "\d+"})
+  */
+  public function viewError($id, Request $request)
+  {
+    // On crée la réponse sans lui donner de contenu pour le moment
+    $response = new Response();
+
+    // On définit le contenu
+    $response->setContent("Ceci est une page d'erreur 404");
+
+    // On définit le code HTTP à « Not Found » (erreur 404)
+    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+
+    // On retourne la réponse
+    return $response;
+  }
+  /**
+  * @Route("/viewT/{id}", name="oc_advert_view", requirements={"id" = "\d+"})
+  */
+  public function viewT($id, Request $request)
+  {
+    $tag = $request->query->get('tag');
+    // On utilise le raccourci : il crée un objet Response
+    // Et lui donne comme contenu le contenu du template
+    return $this->render(
+      'Advert/viewT.html.twig',
+      ['id'  => $id, 'tag' => $tag]
+    );
   }
 }
 
