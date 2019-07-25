@@ -1,14 +1,14 @@
-index:
-   path: /
-   controller: App\Controller\DefaultController::index
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
 
-hello_the_world:
-    path:    /hello-world
-    controller:    App\Controller\AdvertController::index
+# hello_the_world:
+#     path:    /hello-world
+#     controller:    App\Controller\AdvertController::index
 
-Bye_the_world:
-    path:    /bye-world
-    controller:    App\Controller\AdvertController::bye
+# Bye_the_world:
+#     path:    /bye-world
+#     controller:    App\Controller\AdvertController::bye
 
 # oc_advert_index:
 #     path:    /advert
